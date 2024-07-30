@@ -10,7 +10,10 @@ import LoginScreen from '../screens/Auth/LoginScreen';
 import HomeScreen from '../screens/User/HomeScreen';
 import AdminHomeScreen from '../screens/Admin/AdminHomeScreen';
 import HomePfScreen from '../screens/PF/HomePfScreen';
+import IncidentHistory from '../screens/Admin/IncidentHistoryScreen';
+import NewIncident from '../screens/Admin/NewIncidentScreen';
 import { AuthContext } from '../context/AuthContext';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +34,8 @@ function AppNavigator() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="HomePF" component={HomePfScreen} />
+        <Stack.Screen name="IncidentHistory" component={IncidentHistory} />
+        <Stack.Screen name="NewIncident" component={NewIncident} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,8 +8,8 @@ const AdminHomeScreen = ({ navigation }) => {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.greeting}>Buenos días, Admin!</Text>
-          <Text style={styles.subtitle}>Here’s what’s happening today.</Text>
+          <Text style={styles.greeting}>Good Morning Alex!</Text>
+          <Text style={styles.subtitle}>4 Devices are connected</Text>
         </View>
         <Image
           source={{ uri: 'https://your-avatar-url.com/avatar.png' }} // URL del avatar
@@ -17,37 +17,27 @@ const AdminHomeScreen = ({ navigation }) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.createButton}>
-        <Text style={styles.createButtonText}>+ Create new task</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.sectionTitle}>Tasks overview</Text>
-      <View style={styles.tasksOverview}>
-        <View style={[styles.taskCard, styles.blueBackground]}>
-          <Text style={styles.taskCount}>153</Text>
-          <Text style={styles.taskLabel}>Permanent tasks</Text>
-        </View>
-        <View style={[styles.taskCard, styles.purpleBackground]}>
-          <Text style={styles.taskCount}>23</Text>
-          <Text style={styles.taskLabel}>Unfulfilled tasks</Text>
-        </View>
-        <View style={[styles.taskCard, styles.greenBackground]}>
-          <Text style={styles.taskCount}>56</Text>
-          <Text style={styles.taskLabel}>Team tasks</Text>
-        </View>
-      </View>
-
-      <Text style={styles.sectionTitle}>Manage your projects</Text>
-      <View style={styles.projectOverview}>
-        <TouchableOpacity style={styles.projectCard}>
-          <Text style={styles.projectCardText}>Calls with Teammates</Text>
-          <FontAwesome name="phone" size={24} color="#fff" />
+      <View style={styles.cardsContainer}>
+        <TouchableOpacity style={[styles.card, styles.cardRed]} onPress={() => navigation.navigate('IncidentHistory')}>
+          <View style={styles.cardContent}>
+            <FontAwesome name="history" size={24} color="#fff" />
+            <Text style={styles.cardTitle}>Historial de incidencias</Text>
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.projectCard}>
-          <Text style={styles.projectCardText}>Project Documents</Text>
-          <FontAwesome name="file" size={24} color="#fff" />
+        
+        <TouchableOpacity style={[styles.card, styles.cardGreen]} onPress={() => navigation.navigate('NewIncident')}>
+          <View style={styles.cardContent}>
+            <FontAwesome name="plus" size={24} color="#fff" />
+            <Text style={styles.cardTitle}>Nuevas incidencias</Text>
+          </View>
         </TouchableOpacity>
-        {/* Añadir más tarjetas de proyecto según sea necesario */}
+
+        <TouchableOpacity style={[styles.card, styles.cardBlue]} onPress={() => navigation.navigate('Users')}>
+          <View style={styles.cardContent}>
+            <FontAwesome name="users" size={24} color="#fff" />
+            <Text style={styles.cardTitle}>Usuarios</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -79,70 +69,32 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
   },
-  createButton: {
-    backgroundColor: '#000',
-    borderRadius: 25,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    marginVertical: 20,
+  cardsContainer: {
+    marginTop: 30,
   },
-  createButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 20,
-    color: '#000',
-  },
-  tasksOverview: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  taskCard: {
+  card: {
     borderRadius: 10,
-    padding: 15,
-    width: '30%',
-    alignItems: 'center',
-  },
-  blueBackground: {
-    backgroundColor: '#0b60e1',
-  },
-  purpleBackground: {
-    backgroundColor: '#763cad',
-  },
-  greenBackground: {
-    backgroundColor: '#28a745',
-  },
-  taskCount: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  taskLabel: {
-    fontSize: 14,
-    color: '#fff',
-    marginTop: 5,
-    textAlign: 'center',
-  },
-  projectOverview: {
-    marginTop: 20,
-  },
-  projectCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#0b60e1',
-    borderRadius: 10,
-    padding: 15,
+    padding: 20,
     marginVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  projectCardText: {
-    color: '#fff',
+  cardRed: {
+    backgroundColor: '#ff6b6b',
+  },
+  cardGreen: {
+    backgroundColor: '#1dd1a1',
+  },
+  cardBlue: {
+    backgroundColor: '#54a0ff',
+  },
+  cardContent: {
+    alignItems: 'center',
+  },
+  cardTitle: {
+    marginTop: 10,
     fontSize: 16,
+    color: '#fff',
   },
 });
 
