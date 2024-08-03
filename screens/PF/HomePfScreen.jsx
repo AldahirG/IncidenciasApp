@@ -1,15 +1,21 @@
-// screens/Admin/AdminHomeScreen.jsx
+// screens/PF/HomePfScreen.jsx
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const HomePfScreen= ({ navigation }) => {
+const HomePfScreen = ({ navigation }) => {
+  // Datos simulados
+  const totalIncidents = 30;
+  const totalNewIncidents = 5;
+  const incidentHistory = 25; // Total de incidencias históricas
+  const weeklyActivity = 70; // Porcentaje
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.greeting}>Buenos días Planta Física</Text>
-          <Text style={styles.subtitle}>Here’s what’s happening today.</Text>
+          <Text style={styles.greeting}>Buenos días, Planta Física!</Text>
+          <Text style={styles.subtitle}>Aquí está el resumen de hoy.</Text>
         </View>
         <Image
           source={{ uri: 'https://your-avatar-url.com/avatar.png' }} // URL del avatar
@@ -17,38 +23,27 @@ const HomePfScreen= ({ navigation }) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.createButton}>
-        <Text style={styles.createButtonText}>+ Create new task</Text>
-      </TouchableOpacity>
+      <View style={styles.dashboard}>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Incidencias</Text>
+          <Text style={styles.cardNumber}>{totalIncidents}</Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Nuevas Incidencias</Text>
+          <Text style={styles.cardNumber}>{totalNewIncidents}</Text>
+        </View>
+       
+      </View>
 
-      <Text style={styles.sectionTitle}>Tasks overview</Text>
-      <View style={styles.tasksOverview}>
-        <View style={[styles.taskCard, styles.blueBackground]}>
-          <Text style={styles.taskCount}>153</Text>
-          <Text style={styles.taskLabel}>Permanent tasks</Text>
-        </View>
-        <View style={[styles.taskCard, styles.purpleBackground]}>
-          <Text style={styles.taskCount}>23</Text>
-          <Text style={styles.taskLabel}>Unfulfilled tasks</Text>
-        </View>
-        <View style={[styles.taskCard, styles.greenBackground]}>
-          <Text style={styles.taskCount}>56</Text>
-          <Text style={styles.taskLabel}>Team tasks</Text>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Actividad semanal</Text>
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>{weeklyActivity}%</Text>
+          <Text style={styles.statLabel}>Actividad semanal</Text>
         </View>
       </View>
 
-      <Text style={styles.sectionTitle}>Manage your projects</Text>
-      <View style={styles.projectOverview}>
-        <TouchableOpacity style={styles.projectCard}>
-          <Text style={styles.projectCardText}>Calls with Teammates</Text>
-          <FontAwesome name="phone" size={24} color="#fff" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.projectCard}>
-          <Text style={styles.projectCardText}>Project Documents</Text>
-          <FontAwesome name="file" size={24} color="#fff" />
-        </TouchableOpacity>
-        {/* Añadir más tarjetas de proyecto según sea necesario */}
-      </View>
+     
     </ScrollView>
   );
 };
@@ -79,70 +74,96 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
   },
-  createButton: {
-    backgroundColor: '#000',
-    borderRadius: 25,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    marginVertical: 20,
+  dashboard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    flexWrap: 'wrap',
   },
-  createButtonText: {
-    color: '#fff',
+  card: {
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8,
+    padding: 20,
+    alignItems: 'center',
+    width: '48%',
+    marginBottom: 15,
+  },
+  cardTitle: {
     fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  cardNumber: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#000',
+    marginTop: 10,
+  },
+  section: {
+    marginTop: 30,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 20,
     color: '#000',
   },
-  tasksOverview: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  statCard: {
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8,
+    padding: 20,
+    alignItems: 'center',
     marginTop: 10,
   },
-  taskCard: {
-    borderRadius: 10,
-    padding: 15,
-    width: '30%',
-    alignItems: 'center',
-  },
-  blueBackground: {
-    backgroundColor: '#0b60e1',
-  },
-  purpleBackground: {
-    backgroundColor: '#763cad',
-  },
-  greenBackground: {
-    backgroundColor: '#28a745',
-  },
-  taskCount: {
+  statNumber: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#000',
   },
-  taskLabel: {
+  statLabel: {
     fontSize: 14,
-    color: '#fff',
+    color: '#6c757d',
     marginTop: 5,
-    textAlign: 'center',
   },
-  projectOverview: {
+  incidentList: {
     marginTop: 20,
   },
-  projectCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#0b60e1',
-    borderRadius: 10,
+  incidentCard: {
+    backgroundColor: '#f8f9fa',
     padding: 15,
+    borderRadius: 8,
     marginVertical: 10,
   },
-  projectCardText: {
-    color: '#fff',
+  incidentTitle: {
     fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  incidentStatus: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginVertical: 5,
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  detailsButton: {
+    backgroundColor: '#007bff', // Color para el botón de detalles
+  },
+  processButton: {
+    backgroundColor: '#28a745', // Color para el botón de procesar
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 });
 

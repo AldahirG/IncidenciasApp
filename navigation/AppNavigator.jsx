@@ -1,7 +1,6 @@
 // navigation/AppNavigator.jsx
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -14,10 +13,11 @@ import AdminHomeScreen from '../screens/Admin/AdminHomeScreen';
 import HomePfScreen from '../screens/PF/HomePfScreen';
 import IncidentHistoryScreen from '../screens/Admin/IncidentHistoryScreen';
 import NewIncidentScreen from '../screens/Admin/NewIncidentScreen';
+import IncidentProcessScreen from '../screens/PF/IncidentProcessScreen';
+import IncidentPFHistoryScreen from '../screens/PF/IncidentHistoryScreen';
 import { AuthContext } from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 function AppNavigator() {
   const { userType, isAuthenticated } = useContext(AuthContext);
@@ -25,11 +25,11 @@ function AppNavigator() {
   if (!isAuthenticated) {
     return (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-        </Stack.Navigator>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+          <Tab.Screen name="Welcome" component={WelcomeScreen} />
+          <Tab.Screen name="Signup" component={SignupScreen} />
+          <Tab.Screen name="Login" component={LoginScreen} />
+        </Tab.Navigator>
       </NavigationContainer>
     );
   }
@@ -48,8 +48,8 @@ function AppNavigator() {
               iconName = 'history';
             } else if (route.name === 'NewIncident') {
               iconName = 'plus-circle';
-            } else if (route.name === 'Signup' || route.name === 'Login') {
-              iconName = 'sign-in';
+            } else if (route.name === 'IncidentProcess') {
+              iconName = 'wrench';
             }
 
             return <FontAwesome name={iconName} size={size} color={color} />;
@@ -67,7 +67,11 @@ function AppNavigator() {
           <Tab.Screen name="Home" component={HomeScreen} />
         )}
         {userType === 'pf' && (
-          <Tab.Screen name="HomePF" component={HomePfScreen} />
+          <>
+            <Tab.Screen name="HomePF" component={HomePfScreen} />
+            <Tab.Screen name="IncidentProcess" component={IncidentProcessScreen} />
+            <Tab.Screen name="IncidentPFHistory" component={IncidentPFHistoryScreen} />
+          </>
         )}
       </Tab.Navigator>
     </NavigationContainer>
