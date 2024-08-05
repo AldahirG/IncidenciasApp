@@ -1,7 +1,6 @@
 // screens/Admin/IncidentHistoryScreen.jsx
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, FlatList, Modal } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, FlatList, Modal, TextInput } from 'react-native';
 
 const NewIncident = ({ navigation }) => {
   // Simulación de datos de incidencias
@@ -11,7 +10,7 @@ const NewIncident = ({ navigation }) => {
       title: 'Incidencia en el aula 101', 
       date: '2023-07-28',
       description: 'La ventana está rota.',
-      photo: 'https://example.com/photo1.jpg', // URL de ejemplo
+      photo: 'https://picsum.photos/200/300/?blur', // URL de ejemplo
       status: 'Pendiente'
     },
     {
@@ -19,7 +18,7 @@ const NewIncident = ({ navigation }) => {
       title: 'Problema eléctrico en el aula 202', 
       date: '2023-07-29',
       description: 'Las luces no funcionan.',
-      photo: 'https://example.com/photo2.jpg', // URL de ejemplo
+      photo: 'https://picsum.photos/200/300/?blur', // URL de ejemplo
       status: 'Pendiente'
     },
     // Más datos de ejemplo
@@ -100,20 +99,22 @@ const NewIncident = ({ navigation }) => {
           onRequestClose={closeModal}
         >
           <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>{selectedIncident.title}</Text>
-              <Text style={styles.modalText}>Fecha: {selectedIncident.date}</Text>
-              <Text style={styles.modalText}>Descripción: {selectedIncident.description}</Text>
-              {selectedIncident.photo && (
-                <Image 
-                  source={{ uri: selectedIncident.photo }}
-                  style={styles.modalImage}
-                />
-              )}
-              <Text style={styles.modalText}>Estado: {selectedIncident.status}</Text>
-              <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>Cerrar</Text>
-              </TouchableOpacity>
+            <View style={styles.modalView}>
+              <Image 
+                source={{ uri: selectedIncident.photo }}
+                style={styles.modalImage}
+              />
+              <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>{selectedIncident.title}</Text>
+                <Text style={styles.modalDate}>Fecha: {selectedIncident.date}</Text>
+                <Text style={styles.modalDescription}>Descripción: {selectedIncident.description}</Text>
+                <Text style={styles.modalStatus}>Estado: {selectedIncident.status}</Text>
+              </View>
+              <View style={styles.buttonGroup}>
+                <TouchableOpacity style={[styles.button, styles.closeButton]} onPress={closeModal}>
+                  <Text style={styles.buttonText}>Cerrar</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -199,40 +200,50 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: '90%',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: '100%',
+    height: 200,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   modalContent: {
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    width: '100%',
     padding: 20,
-    alignItems: 'center',
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 15,
-  },
-  modalText: {
-    fontSize: 16,
     marginBottom: 10,
   },
-  modalImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 10,
-    marginBottom: 15,
+  modalDate: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginBottom: 5,
+  },
+  modalDescription: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginBottom: 5,
+  },
+  modalStatus: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginBottom: 5,
   },
   closeButton: {
-    marginTop: 20,
-    backgroundColor: '#007bff',
-    borderRadius: 10,
+    backgroundColor: '#dc3545',
+    borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 20,
-  },
-  closeButtonText: {
-    color: '#fff',
-    fontSize: 16,
+    marginTop: 20,
   },
 });
 

@@ -1,6 +1,6 @@
 // screens/PF/IncidentProcessScreen.jsx
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image, Modal, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image, Modal } from 'react-native';
 
 const IncidentProcessScreen = ({ navigation }) => {
   // Simulación de datos de incidencias
@@ -63,43 +63,49 @@ const IncidentProcessScreen = ({ navigation }) => {
           visible={selectedIncident !== null}
           onRequestClose={() => setSelectedIncident(null)}
         >
-          <View style={styles.modalView}>
-            <Text style={styles.incidentTitle}>{selectedIncident.title}</Text>
-            <Text style={styles.incidentStatus}>Estado: {selectedIncident.status}</Text>
-            <Text style={styles.incidentDate}>Fecha: {selectedIncident.date}</Text>
-            <Text style={styles.incidentDescription}>Descripción: {selectedIncident.description}</Text>
-            {selectedIncident.photo && (
+          <View style={styles.modalContainer}>
+            <View style={styles.modalView}>
               <Image 
                 source={{ uri: selectedIncident.photo }}
-                style={styles.incidentImage}
+                style={styles.modalImage}
               />
-            )}
-            <Text style={styles.commentsTitle}>Comentarios:</Text>
-            {selectedIncident.comments.map((comment, index) => (
-              <Text key={index} style={styles.comment}>{comment}</Text>
-            ))}
-            <TextInput
-              style={styles.commentInput}
-              placeholder="Agregar comentario"
-              value={comment}
-              onChangeText={setComment}
-            />
-            <Button title="Agregar Comentario" onPress={handleAddComment} />
-            <View style={styles.buttonGroup}>
-              <TouchableOpacity
-                style={[styles.button, styles.processButton]}
-                onPress={() => handleUpdateStatus(selectedIncident.id, 'En Proceso')}
-              >
-                <Text style={styles.buttonText}>En Proceso</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, styles.completedButton]}
-                onPress={() => handleUpdateStatus(selectedIncident.id, 'Completado')}
-              >
-                <Text style={styles.buttonText}>Completado</Text>
-              </TouchableOpacity>
+              <View style={styles.modalContent}>
+                <Text style={styles.incidentTitle}>{selectedIncident.title}</Text>
+                <Text style={styles.incidentStatus}>Estado: {selectedIncident.status}</Text>
+                <Text style={styles.incidentDate}>Fecha: {selectedIncident.date}</Text>
+                <Text style={styles.incidentDescription}>Descripción: {selectedIncident.description}</Text>
+                <Text style={styles.commentsTitle}>Comentarios:</Text>
+                {selectedIncident.comments.map((comment, index) => (
+                  <Text key={index} style={styles.comment}>{comment}</Text>
+                ))}
+                <TextInput
+                  style={styles.commentInput}
+                  placeholder="Agregar comentario"
+                  value={comment}
+                  onChangeText={setComment}
+                />
+                <TouchableOpacity style={styles.addCommentButton} onPress={handleAddComment}>
+                  <Text style={styles.buttonText}>Agregar Comentario</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.buttonGroup}>
+                <TouchableOpacity
+                  style={[styles.button, styles.completedButton]}
+                  onPress={() => handleUpdateStatus(selectedIncident.id, 'Completado')}
+                >
+                  <Text style={styles.buttonText}>Completado</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.processButton]}
+                  onPress={() => handleUpdateStatus(selectedIncident.id, 'En Proceso')}
+                >
+                  <Text style={styles.buttonText}>En Proceso</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, styles.closeButton]} onPress={() => setSelectedIncident(null)}>
+                  <Text style={styles.buttonText}>Cerrar</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <Button title="Cerrar" onPress={() => setSelectedIncident(null)} />
           </View>
         </Modal>
       )}
@@ -130,14 +136,27 @@ const styles = StyleSheet.create({
     color: '#6c757d',
     marginVertical: 5,
   },
-  modalView: {
+  modalContainer: {
     flex: 1,
-    backgroundColor: 'white',
-    padding: 20,
-    margin: 20,
-    borderRadius: 10,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: '90%',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: '100%',
+    height: 200,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  modalContent: {
+    width: '100%',
+    padding: 20,
   },
   incidentDate: {
     fontSize: 14,
@@ -147,12 +166,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#6c757d',
     marginVertical: 5,
-  },
-  incidentImage: {
-    width: '100%',
-    height: 200,
-    borderRadius: 8,
-    marginVertical: 10,
   },
   commentsTitle: {
     fontSize: 16,
@@ -172,23 +185,34 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: '100%',
   },
-  buttonGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  button: {
+  addCommentButton: {
+    backgroundColor: '#007bff',
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 15,
     alignItems: 'center',
     marginTop: 10,
   },
+  buttonGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    padding: 20,
+  },
+  button: {
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+  },
   processButton: {
     backgroundColor: '#007bff', // Color para el botón de "En Proceso"
   },
   completedButton: {
     backgroundColor: '#28a745', // Color para el botón de "Completado"
+  },
+  closeButton: {
+    backgroundColor: '#dc3545', // Color para el botón de "Cerrar"
   },
   buttonText: {
     color: '#fff',

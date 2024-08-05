@@ -1,16 +1,15 @@
-// screens/Admin/IncidentHistoryScreen.jsx
+// screens/User/IncidentHistoryScreen.jsx
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, FlatList, Modal } from 'react-native';
 
 const IncidentHistoryScreen = ({ navigation }) => {
-  // Simulación de datos de incidencias
   const [incidents, setIncidents] = useState([
     {
       id: '1', 
       title: 'Incidencia en el aula 101', 
       date: '2023-07-28',
       description: 'La ventana está rota.',
-      photo: 'https://picsum.photos/200/300/?blur', // URL de ejemplo
+      photo: 'https://picsum.photos/200/300/?blur',
       status: 'Pendiente'
     },
     {
@@ -18,10 +17,9 @@ const IncidentHistoryScreen = ({ navigation }) => {
       title: 'Problema eléctrico en el aula 202', 
       date: '2023-07-29',
       description: 'Las luces no funcionan.',
-      photo: 'https://picsum.photos/200/300/?blur', // URL de ejemplo
+      photo: 'https://picsum.photos/200/300/?blur',
       status: 'Pendiente'
     },
-    // Más datos de ejemplo
   ]);
 
   const [selectedIncident, setSelectedIncident] = useState(null);
@@ -36,18 +34,7 @@ const IncidentHistoryScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.greeting}>Buenos días, Admin!</Text>
-          <Text style={styles.subtitle}>Aquí están las incidencias de hoy.</Text>
-        </View>
-        <Image
-          source={{ uri: 'https://your-avatar-url.com/avatar.png' }} // URL del avatar
-          style={styles.avatar}
-        />
-      </View>
-
-      <Text style={styles.sectionTitle}>Incidencias reportadas</Text>
+      <Text style={styles.sectionTitle}>Historial de incidencias</Text>
       <FlatList
         data={incidents}
         keyExtractor={item => item.id}
@@ -55,14 +42,12 @@ const IncidentHistoryScreen = ({ navigation }) => {
           <View style={styles.incidentCard}>
             <Text style={styles.incidentTitle}>{item.title}</Text>
             <Text style={styles.incidentStatus}>Estado: {item.status}</Text>
-            <View style={styles.buttonGroup}>
-              <TouchableOpacity
-                style={[styles.button, styles.detailsButton]}
-                onPress={() => handleDetails(item)}
-              >
-                <Text style={styles.buttonText}>Detalles</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              style={[styles.button, styles.detailsButton]}
+              onPress={() => handleDetails(item)}
+            >
+              <Text style={styles.buttonText}>Detalles</Text>
+            </TouchableOpacity>
           </View>
         )}
       />
@@ -86,11 +71,9 @@ const IncidentHistoryScreen = ({ navigation }) => {
                 <Text style={styles.modalDescription}>Descripción: {selectedIncident.description}</Text>
                 <Text style={styles.modalStatus}>Estado: {selectedIncident.status}</Text>
               </View>
-              <View style={styles.buttonGroup}>
-                <TouchableOpacity style={[styles.button, styles.closeButton]} onPress={closeModal}>
-                  <Text style={styles.buttonText}>Cerrar</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                <Text style={styles.buttonText}>Cerrar</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -104,26 +87,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  greeting: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#6c757d',
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
   },
   sectionTitle: {
     fontSize: 18,
@@ -147,10 +110,6 @@ const styles = StyleSheet.create({
     color: '#6c757d',
     marginVertical: 5,
   },
-  buttonGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   button: {
     borderRadius: 8,
     paddingVertical: 10,
@@ -159,7 +118,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   detailsButton: {
-    backgroundColor: '#007bff', // Color para el botón de detalles
+    backgroundColor: '#007bff',
   },
   buttonText: {
     color: '#fff',

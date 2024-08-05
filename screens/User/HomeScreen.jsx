@@ -1,15 +1,15 @@
-// screens/Admin/AdminHomeScreen.jsx
+// screens/User/HomeScreen.jsx
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const HomeScreen= ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View>
           <Text style={styles.greeting}>Buenos días, Usuario!</Text>
-          <Text style={styles.subtitle}>Here’s what’s happening today.</Text>
+          <Text style={styles.subtitle}>Aquí está el resumen de hoy.</Text>
         </View>
         <Image
           source={{ uri: 'https://your-avatar-url.com/avatar.png' }} // URL del avatar
@@ -17,35 +17,37 @@ const HomeScreen= ({ navigation }) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.createButton}>
-        <Text style={styles.createButtonText}>+ Create new task</Text>
+      <TouchableOpacity 
+        style={styles.createButton} 
+        onPress={() => navigation.navigate('NewIncident')}
+      >
+        <Text style={styles.createButtonText}>+ Reportar nueva incidencia</Text>
       </TouchableOpacity>
 
-      <Text style={styles.sectionTitle}>Tasks overview</Text>
+      <Text style={styles.sectionTitle}>Resumen de incidencias</Text>
       <View style={styles.tasksOverview}>
         <View style={[styles.taskCard, styles.blueBackground]}>
-          <Text style={styles.taskCount}>153</Text>
-          <Text style={styles.taskLabel}>Permanent tasks</Text>
-        </View>
-        <View style={[styles.taskCard, styles.purpleBackground]}>
-          <Text style={styles.taskCount}>23</Text>
-          <Text style={styles.taskLabel}>Unfulfilled tasks</Text>
+          <Text style={styles.taskCount}>5</Text>
+          <Text style={styles.taskLabel}>Incidencias reportadas</Text>
         </View>
         <View style={[styles.taskCard, styles.greenBackground]}>
-          <Text style={styles.taskCount}>56</Text>
-          <Text style={styles.taskLabel}>Team tasks</Text>
+          <Text style={styles.taskCount}>3</Text>
+          <Text style={styles.taskLabel}>Incidencias en proceso</Text>
+        </View>
+        <View style={[styles.taskCard, styles.purpleBackground]}>
+          <Text style={styles.taskCount}>2</Text>
+          <Text style={styles.taskLabel}>Incidencias resueltas</Text>
         </View>
       </View>
 
-      <Text style={styles.sectionTitle}>Manage your projects</Text>
+      <Text style={styles.sectionTitle}>Administrar incidencias</Text>
       <View style={styles.projectOverview}>
-        <TouchableOpacity style={styles.projectCard}>
-          <Text style={styles.projectCardText}>Calls with Teammates</Text>
-          <FontAwesome name="phone" size={24} color="#fff" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.projectCard}>
-          <Text style={styles.projectCardText}>Project Documents</Text>
-          <FontAwesome name="file" size={24} color="#fff" />
+        <TouchableOpacity 
+          style={styles.projectCard} 
+          onPress={() => navigation.navigate('IncidentHistory')}
+        >
+          <Text style={styles.projectCardText}>Historial de incidencias</Text>
+          <FontAwesome name="history" size={24} color="#fff" />
         </TouchableOpacity>
         {/* Añadir más tarjetas de proyecto según sea necesario */}
       </View>

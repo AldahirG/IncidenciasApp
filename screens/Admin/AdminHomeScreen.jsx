@@ -1,9 +1,12 @@
 // screens/Admin/AdminHomeScreen.jsx
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { AuthContext } from '../../context/AuthContext';
 
 const AdminHomeScreen = ({ navigation }) => {
+  const { logout } = useContext(AuthContext);
+
   // Datos simulados
   const totalIncidents = 50;
   const totalUsers = 120;
@@ -21,6 +24,9 @@ const AdminHomeScreen = ({ navigation }) => {
           source={{ uri: 'https://your-avatar-url.com/avatar.png' }} // URL del avatar
           style={styles.avatar}
         />
+        <TouchableOpacity onPress={logout}>
+          <FontAwesome name="sign-out" size={24} color="black" />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.dashboard}>
@@ -48,18 +54,26 @@ const AdminHomeScreen = ({ navigation }) => {
 
       <Text style={styles.sectionTitle}>Incidencias reportadas</Text>
       <View style={styles.incidentList}>
-        {/* Aquí puedes mapear las incidencias */}
         <View style={styles.incidentCard}>
           <Text style={styles.incidentTitle}>Incidencia en el aula 101</Text>
           <Text style={styles.incidentStatus}>Estado: Pendiente</Text>
           <View style={styles.buttonGroup}>
-            <TouchableOpacity style={[styles.button, styles.approveButton]}>
+            <TouchableOpacity
+              style={[styles.button, styles.approveButton]}
+              onPress={() => console.log('Aprobar')}
+            >
               <Text style={styles.buttonText}>Aprobar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.discardButton]}>
+            <TouchableOpacity
+              style={[styles.button, styles.discardButton]}
+              onPress={() => console.log('Descartar')}
+            >
               <Text style={styles.buttonText}>Descartar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.detailsButton]}>
+            <TouchableOpacity
+              style={[styles.button, styles.detailsButton]}
+              onPress={() => console.log('Detalles')}
+            >
               <Text style={styles.buttonText}>Detalles</Text>
             </TouchableOpacity>
           </View>
@@ -72,7 +86,7 @@ const AdminHomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f2f5',
     paddingHorizontal: 20,
   },
   header: {
@@ -80,6 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 40,
+    marginBottom: 20,
   },
   greeting: {
     fontSize: 24,
@@ -98,14 +113,19 @@ const styles = StyleSheet.create({
   dashboard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginBottom: 20,
   },
   card: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
     borderRadius: 8,
     padding: 20,
     alignItems: 'center',
     width: '48%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
   },
   cardTitle: {
     fontSize: 16,
@@ -119,19 +139,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   section: {
-    marginTop: 30,
+    marginBottom: 20,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
+    marginBottom: 10,
   },
   statCard: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
     borderRadius: 8,
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
   },
   statNumber: {
     fontSize: 28,
@@ -144,13 +170,18 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   incidentList: {
-    marginTop: 20,
+    marginBottom: 20,
   },
   incidentCard: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
     padding: 15,
     borderRadius: 8,
-    marginVertical: 10,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
   },
   incidentTitle: {
     fontSize: 16,
@@ -165,6 +196,7 @@ const styles = StyleSheet.create({
   buttonGroup: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: 10,
   },
   button: {
     borderRadius: 8,
@@ -174,13 +206,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   approveButton: {
-    backgroundColor: '#28a745', // Color para el botón de aprobar
+    backgroundColor: '#28a745',
   },
   discardButton: {
-    backgroundColor: '#dc3545', // Color para el botón de descartar
+    backgroundColor: '#dc3545',
   },
   detailsButton: {
-    backgroundColor: '#007bff', // Color para el botón de detalles
+    backgroundColor: '#007bff',
   },
   buttonText: {
     color: '#fff',

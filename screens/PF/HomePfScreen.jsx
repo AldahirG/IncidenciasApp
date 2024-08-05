@@ -1,13 +1,15 @@
 // screens/PF/HomePfScreen.jsx
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { AuthContext } from '../../context/AuthContext';
 
 const HomePfScreen = ({ navigation }) => {
+  const { logout } = useContext(AuthContext);
+
   // Datos simulados
   const totalIncidents = 30;
   const totalNewIncidents = 5;
-  const incidentHistory = 25; // Total de incidencias históricas
   const weeklyActivity = 70; // Porcentaje
 
   return (
@@ -21,6 +23,9 @@ const HomePfScreen = ({ navigation }) => {
           source={{ uri: 'https://your-avatar-url.com/avatar.png' }} // URL del avatar
           style={styles.avatar}
         />
+        <TouchableOpacity onPress={logout}>
+          <FontAwesome name="sign-out" size={24} color="black" />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.dashboard}>
@@ -32,7 +37,6 @@ const HomePfScreen = ({ navigation }) => {
           <Text style={styles.cardTitle}>Nuevas Incidencias</Text>
           <Text style={styles.cardNumber}>{totalNewIncidents}</Text>
         </View>
-       
       </View>
 
       <View style={styles.section}>
@@ -42,8 +46,6 @@ const HomePfScreen = ({ navigation }) => {
           <Text style={styles.statLabel}>Actividad semanal</Text>
         </View>
       </View>
-
-     
     </ScrollView>
   );
 };
@@ -51,7 +53,7 @@ const HomePfScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f2f5',
     paddingHorizontal: 20,
   },
   header: {
@@ -59,6 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 40,
+    marginBottom: 20,
   },
   greeting: {
     fontSize: 24,
@@ -77,16 +80,19 @@ const styles = StyleSheet.create({
   dashboard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
-    flexWrap: 'wrap',
+    marginBottom: 20,
   },
   card: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
     borderRadius: 8,
     padding: 20,
     alignItems: 'center',
     width: '48%',
-    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
   },
   cardTitle: {
     fontSize: 16,
@@ -100,19 +106,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   section: {
-    marginTop: 30,
+    marginBottom: 20,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
+    marginBottom: 10,
   },
   statCard: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
     borderRadius: 8,
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
   },
   statNumber: {
     fontSize: 28,
@@ -123,47 +135,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#6c757d',
     marginTop: 5,
-  },
-  incidentList: {
-    marginTop: 20,
-  },
-  incidentCard: {
-    backgroundColor: '#f8f9fa',
-    padding: 15,
-    borderRadius: 8,
-    marginVertical: 10,
-  },
-  incidentTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  incidentStatus: {
-    fontSize: 14,
-    color: '#6c757d',
-    marginVertical: 5,
-  },
-  buttonGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  button: {
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  detailsButton: {
-    backgroundColor: '#007bff', // Color para el botón de detalles
-  },
-  processButton: {
-    backgroundColor: '#28a745', // Color para el botón de procesar
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
   },
 });
 

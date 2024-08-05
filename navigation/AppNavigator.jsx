@@ -9,6 +9,8 @@ import WelcomeScreen from '../screens/Common/WelcomeScreen';
 import SignupScreen from '../screens/Auth/SignupScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import HomeScreen from '../screens/User/HomeScreen';
+import NewIncidentUScreen from '../screens/User/NewIncidentScreen';
+import IncidentHistoryUScreen from '../screens/User/IncidentHistoryScreen';
 import AdminHomeScreen from '../screens/Admin/AdminHomeScreen';
 import HomePfScreen from '../screens/PF/HomePfScreen';
 import IncidentHistoryScreen from '../screens/Admin/IncidentHistoryScreen';
@@ -64,7 +66,11 @@ function AppNavigator() {
           </>
         )}
         {userType === 'user' && (
+          <>
           <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="NewIncident" component={NewIncidentUScreen} />
+          <Tab.Screen name="IncidentHistory" component={IncidentHistoryUScreen} />
+          </>
         )}
         {userType === 'pf' && (
           <>
