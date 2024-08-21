@@ -1,30 +1,27 @@
-// screens/Admin/IncidentHistoryScreen.jsx
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, FlatList, Modal } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, FlatList, Modal, ActivityIndicator } from 'react-native';
+import axios from 'axios';
 
 const IncidentHistoryScreen = ({ navigation }) => {
-  // Simulación de datos de incidencias
-  const [incidents, setIncidents] = useState([
-    {
-      id: '1', 
-      title: 'Incidencia en el aula 101', 
-      date: '2023-07-28',
-      description: 'La ventana está rota.',
-      photo: 'https://picsum.photos/200/300/?blur', // URL de ejemplo
-      status: 'Pendiente'
-    },
-    {
-      id: '2', 
-      title: 'Problema eléctrico en el aula 202', 
-      date: '2023-07-29',
-      description: 'Las luces no funcionan.',
-      photo: 'https://picsum.photos/200/300/?blur', // URL de ejemplo
-      status: 'Pendiente'
-    },
-    // Más datos de ejemplo
-  ]);
-
+  const [incidents, setIncidents] = useState([]);
   const [selectedIncident, setSelectedIncident] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchIncidents = async () => {
+      try {
+        const response = await axios.get('https://a1k1mdqq9d.execute-api.us-east-1.amazonaws.com/prod/get_all');
+        setIncidents(response.data);
+      } catch (err) {
+        setError('Error fetching incidents');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchIncidents();
+  }, []);
 
   const handleDetails = (incident) => {
     setSelectedIncident(incident);
@@ -33,6 +30,23 @@ const IncidentHistoryScreen = ({ navigation }) => {
   const closeModal = () => {
     setSelectedIncident(null);
   };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={styles.loadingText}>Cargando incidencias...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -214,6 +228,25 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginTop: 20,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 18,
+    color: '#000',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 18,
+    color: 'red',
   },
 });
 

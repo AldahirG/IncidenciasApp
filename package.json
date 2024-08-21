@@ -8,14 +8,17 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
+  "proxy": "https://a1k1mdqq9d.execute-api.us-east-1.amazonaws.com/prod",
   "dependencies": {
     "@expo/metro-runtime": "~3.2.1",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
+    "axios": "^1.7.4",
     "expo": "~51.0.22",
     "expo-image-picker": "^15.0.7",
     "expo-status-bar": "~1.12.1",
+    "gestionincidencias": "file:",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.3",

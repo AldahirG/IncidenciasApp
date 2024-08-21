@@ -1,9 +1,39 @@
 // screens/User/HomeScreen.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { getAllIncidents } from '../../services/incidentService'; // Asegúrate de tener este servicio configurado
 
 const HomeScreen = ({ navigation }) => {
+  const [incidents, setIncidents] = useState([]);
+  const [reportedCount, setReportedCount] = useState(0);
+  const [inProgressCount, setInProgressCount] = useState(0);
+  const [resolvedCount, setResolvedCount] = useState(0);
+
+  useEffect(() => {
+    fetchIncidents();
+  }, []);
+
+  const fetchIncidents = async () => {
+    try {
+      const data = await getAllIncidents();
+      setIncidents(data);
+      calculateIncidentStats(data);
+    } catch (error) {
+      console.error('Error fetching incidents:', error);
+    }
+  };
+
+  const calculateIncidentStats = (incidents) => {
+    const reported = incidents.length;
+    const inProgress = incidents.filter(incident => incident.estado === 'en proceso').length;
+    const resolved = incidents.filter(incident => incident.estado === 'resuelta').length;
+
+    setReportedCount(reported);
+    setInProgressCount(inProgress);
+    setResolvedCount(resolved);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -27,15 +57,15 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.sectionTitle}>Resumen de incidencias</Text>
       <View style={styles.tasksOverview}>
         <View style={[styles.taskCard, styles.blueBackground]}>
-          <Text style={styles.taskCount}>5</Text>
+          <Text style={styles.taskCount}>{reportedCount}</Text>
           <Text style={styles.taskLabel}>Incidencias reportadas</Text>
         </View>
         <View style={[styles.taskCard, styles.greenBackground]}>
-          <Text style={styles.taskCount}>3</Text>
+          <Text style={styles.taskCount}>{inProgressCount}</Text>
           <Text style={styles.taskLabel}>Incidencias en proceso</Text>
         </View>
         <View style={[styles.taskCard, styles.purpleBackground]}>
-          <Text style={styles.taskCount}>2</Text>
+          <Text style={styles.taskCount}>{resolvedCount}</Text>
           <Text style={styles.taskLabel}>Incidencias resueltas</Text>
         </View>
       </View>
@@ -49,7 +79,6 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.projectCardText}>Historial de incidencias</Text>
           <FontAwesome name="history" size={24} color="#fff" />
         </TouchableOpacity>
-        {/* Añadir más tarjetas de proyecto según sea necesario */}
       </View>
     </ScrollView>
   );

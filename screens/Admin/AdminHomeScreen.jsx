@@ -1,17 +1,26 @@
-// screens/Admin/AdminHomeScreen.jsx
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
+import { getAllIncidents } from '../../services/incidentService';
 
 const AdminHomeScreen = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
+  const [incidents, setIncidents] = useState([]);
+  const [totalUsers, setTotalUsers] = useState(120); // Assuming you get this number from somewhere else
+  const [weeklyActivity, setWeeklyActivity] = useState(58); // Assuming a constant value or calculate
+  const [totalProgress, setTotalProgress] = useState(55); // Assuming a constant value or calculate
 
-  // Datos simulados
-  const totalIncidents = 50;
-  const totalUsers = 120;
-  const weeklyActivity = 58; // Porcentaje
-  const totalProgress = 55; // Porcentaje
+  useEffect(() => {
+    // Fetch all incidents when the component mounts
+    getAllIncidents()
+      .then(response => {
+        setIncidents(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching incidents:', error);
+      });
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
@@ -32,7 +41,7 @@ const AdminHomeScreen = ({ navigation }) => {
       <View style={styles.dashboard}>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Incidencias</Text>
-          <Text style={styles.cardNumber}>{totalIncidents}</Text>
+          <Text style={styles.cardNumber}>{incidents.length}</Text>
         </View>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Usuarios</Text>
@@ -54,30 +63,32 @@ const AdminHomeScreen = ({ navigation }) => {
 
       <Text style={styles.sectionTitle}>Incidencias reportadas</Text>
       <View style={styles.incidentList}>
-        <View style={styles.incidentCard}>
-          <Text style={styles.incidentTitle}>Incidencia en el aula 101</Text>
-          <Text style={styles.incidentStatus}>Estado: Pendiente</Text>
-          <View style={styles.buttonGroup}>
-            <TouchableOpacity
-              style={[styles.button, styles.approveButton]}
-              onPress={() => console.log('Aprobar')}
-            >
-              <Text style={styles.buttonText}>Aprobar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.discardButton]}
-              onPress={() => console.log('Descartar')}
-            >
-              <Text style={styles.buttonText}>Descartar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.detailsButton]}
-              onPress={() => console.log('Detalles')}
-            >
-              <Text style={styles.buttonText}>Detalles</Text>
-            </TouchableOpacity>
+        {incidents.map(incident => (
+          <View key={incident.incidentId.S} style={styles.incidentCard}>
+            <Text style={styles.incidentTitle}>{incident.Description.S}</Text>
+            <Text style={styles.incidentStatus}>Estado: {incident.Status.S}</Text>
+            <View style={styles.buttonGroup}>
+              <TouchableOpacity
+                style={[styles.button, styles.approveButton]}
+                onPress={() => console.log('Aprobar', incident.incidentId.S)}
+              >
+                <Text style={styles.buttonText}>Aprobar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.discardButton]}
+                onPress={() => console.log('Descartar', incident.incidentId.S)}
+              >
+                <Text style={styles.buttonText}>Descartar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.detailsButton]}
+                onPress={() => console.log('Detalles', incident.incidentId.S)}
+              >
+                <Text style={styles.buttonText}>Detalles</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        ))}
       </View>
     </ScrollView>
   );

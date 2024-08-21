@@ -1,28 +1,24 @@
 // screens/User/IncidentHistoryScreen.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, FlatList, Modal } from 'react-native';
+import { getAllIncidents } from '../../services/incidentService'; // Asegúrate de tener este servicio configurado
 
 const IncidentHistoryScreen = ({ navigation }) => {
-  const [incidents, setIncidents] = useState([
-    {
-      id: '1', 
-      title: 'Incidencia en el aula 101', 
-      date: '2023-07-28',
-      description: 'La ventana está rota.',
-      photo: 'https://picsum.photos/200/300/?blur',
-      status: 'Pendiente'
-    },
-    {
-      id: '2', 
-      title: 'Problema eléctrico en el aula 202', 
-      date: '2023-07-29',
-      description: 'Las luces no funcionan.',
-      photo: 'https://picsum.photos/200/300/?blur',
-      status: 'Pendiente'
-    },
-  ]);
-
+  const [incidents, setIncidents] = useState([]);
   const [selectedIncident, setSelectedIncident] = useState(null);
+
+  useEffect(() => {
+    fetchIncidents();
+  }, []);
+
+  const fetchIncidents = async () => {
+    try {
+      const data = await getAllIncidents();
+      setIncidents(data);
+    } catch (error) {
+      console.error('Error fetching incidents:', error);
+    }
+  };
 
   const handleDetails = (incident) => {
     setSelectedIncident(incident);
@@ -40,8 +36,8 @@ const IncidentHistoryScreen = ({ navigation }) => {
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <View style={styles.incidentCard}>
-            <Text style={styles.incidentTitle}>{item.title}</Text>
-            <Text style={styles.incidentStatus}>Estado: {item.status}</Text>
+            <Text style={styles.incidentTitle}>{item.titulo}</Text>
+            <Text style={styles.incidentStatus}>Estado: {item.estado}</Text>
             <TouchableOpacity
               style={[styles.button, styles.detailsButton]}
               onPress={() => handleDetails(item)}
@@ -62,14 +58,14 @@ const IncidentHistoryScreen = ({ navigation }) => {
           <View style={styles.modalContainer}>
             <View style={styles.modalView}>
               <Image 
-                source={{ uri: selectedIncident.photo }}
+                source={{ uri: selectedIncident.photo || 'https://picsum.photos/200/300/?blur' }}
                 style={styles.modalImage}
               />
               <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>{selectedIncident.title}</Text>
-                <Text style={styles.modalDate}>Fecha: {selectedIncident.date}</Text>
-                <Text style={styles.modalDescription}>Descripción: {selectedIncident.description}</Text>
-                <Text style={styles.modalStatus}>Estado: {selectedIncident.status}</Text>
+                <Text style={styles.modalTitle}>{selectedIncident.titulo}</Text>
+                <Text style={styles.modalDate}>Fecha: {selectedIncident.fecha}</Text>
+                <Text style={styles.modalDescription}>Descripción: {selectedIncident.descripcion}</Text>
+                <Text style={styles.modalStatus}>Estado: {selectedIncident.estado}</Text>
               </View>
               <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
                 <Text style={styles.buttonText}>Cerrar</Text>
